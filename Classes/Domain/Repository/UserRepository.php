@@ -166,7 +166,7 @@ class UserRepository extends Repository
         $and = $this->filterByPage($and, $query);
         $and = $this->filterBySearchword($filter, $query, $and);
         $query->matching($query->logicalAnd($and));
-        $query->setOrderings(['username' => QueryInterface::ORDER_ASCENDING]);
+        $query->setOrderings(['crdate' => QueryInterface::ORDER_DESCENDING]);
         $records = $query->execute();
 
         return $records;

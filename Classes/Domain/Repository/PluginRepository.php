@@ -91,11 +91,11 @@ class PluginRepository
             $viewString = $this->scaString[$view];
             preg_match(
                 '~<field index="switchableControllerActions">\s+<value index="vDEF">'
-                    . htmlspecialchars($viewString) . '~',
+                . htmlspecialchars($viewString) . '~',
                 $pluginConfiguration,
                 $result
             );
-            return $result !== [];
+            return (strpos($pluginConfiguration, $viewString) !== false) || ($result !== []);
         } else {
             throw new \LogicException('Given view is not allowed', 1541506310);
         }
