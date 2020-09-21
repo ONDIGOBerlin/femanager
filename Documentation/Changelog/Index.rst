@@ -17,7 +17,50 @@ All changes are documented on https://docs.typo3.org/typo3cms/extensions/femanag
    :Changes:
       Release Description
 
- - :Version:
+- :Version:
+      6.1.0
+   :Date:
+      2020-08-13
+   :Changes:
+      * [FEATURE] Add support for country selection options - :ref:`see documentation <countryselect>` - Sponsored by Resultify.se
+      * [BUGFIX] Allow validation via captcha - thanks to Germar https://github.com/Germar and dnozdrin https://github.com/dnozdrin
+
+- :Version:
+      6.0.1 (!!!)
+   :Date:
+      2020-07-15
+   :Changes:
+      * [TASK] Remove falsly declarated support for TYPO3 V9 in femanager 6 branch
+
+- :Version:
+      5.4.0
+   :Date:
+      2020-08-30
+   :Changes:
+      * [FEATURE] Add support for country selection options (for TYPO3 V8 / V9) - :ref:`see documentation <countryselect>`- Sponsored by Resultify.se
+
+- :Version:
+      5.3.1
+   :Date:
+      2020-08-06
+   :Changes:
+      * [Bugfix] Allow validation via captcha - thanks to Germar https://github.com/Germar and dnozdrin https://github.com/dnozdrin
+
+- :Version:
+      5.3.0
+   :Date:
+      2020-07-06
+   :Changes:
+      * [FEATURE] Adds uppercase validation for password (https://github.com/in2code-de/femanager/issues/91) - thanks to https://github.com/alexkue7911
+      * [FEATURE] Add support for PageTS and UserTS configuration for femanager backend module - Sponsored by in2code
+      * [FEATURE] Change user confirmation process to frontend requests - Sponsored by in2code
+      * [BUGFIX] Use FlexFormService to validate allowed views (https://github.com/in2code-de/femanager/issues/177) - thanks to https://github.com/nigelmann
+      * [BUGFIX] TCA migrations for TYPO3 v9.5 - thanks to https://github.com/TrueType
+      * [BUGFIX] Make ajax validation URL more robust - thanks to https://github.com/baschny
+      * [BUGFIX] Allow '0' if field is required (https://github.com/in2code-de/femanager/issues/52) - thanks to https://github.com/DanielSiepmann
+      * [DOCS] Add info about PHP7 and extending femanager - thanks to https://github.com/uwejakobs
+
+- :Version:
       5.2.0 (!!!)
    :Date:
       2019-11-26

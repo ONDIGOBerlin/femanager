@@ -153,6 +153,10 @@ plugin.tx_femanager {
 					# requires to check terms and conditions checkbox
 #					required = 1
 				}
+				state {
+					required = 0
+					if = In2code\Femanager\Domain\Validator\ShouldValidateStateCondition
+				}
 			}
 
 
@@ -722,7 +726,7 @@ plugin.tx_femanager {
 			}
 
 			# validation of user input values
-			# possible validations for each field are: required, email, min, max, intOnly, lettersOnly, uniqueInPage, uniqueInDb, date, mustInclude(number,letter,special,space), mustNotInclude(number,letter,special,space), inList(1,2,3), captcha, sameAs(password)
+			# possible validations for each field are: required, email, min, max, intOnly, lettersOnly, uniqueInPage, uniqueInDb, date, mustInclude(number,letter,special,space,uppercase), mustNotInclude(number,letter,uppercase,special,space), inList(1,2,3), captcha, sameAs(password)
 			validation {
 				# Enable clientside Formvalidation (JavaScript)
 				_enable.client = 1
@@ -1702,6 +1706,31 @@ feManagerValidation {
 		controller = User
 		action = validate
 		switchableControllerActions.User.1 = validate
+		features.requireCHashArgumentForActionArguments = 0
+	}
+}
+
+feManagerStateSelection = PAGE
+feManagerStateSelection {
+	typeNum = 1594138042
+	config {
+		additionalHeaders.10.header = Content-Type: application/json
+		no_cache = 1
+		disableAllHeaderCode = 1
+		disablePrefixComment = 1
+		xhtml_cleaning = 0
+		admPanel = 0
+		debug = 0
+	}
+
+	10 = USER
+	10 {
+		userFunc = TYPO3\CMS\Extbase\Core\Bootstrap->run
+		extensionName = Femanager
+		pluginName = Pi1
+		vendorName = In2code
+		controller = Data
+		action = getStatesForCountry
 		features.requireCHashArgumentForActionArguments = 0
 	}
 }

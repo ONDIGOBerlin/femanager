@@ -30,8 +30,8 @@ $feUsersColumns = [
             'tx_femanager_domain_model_user.dateOfBirth',
         'config' => [
             'type' => 'input',
+            'renderType' => 'inputDateTime',
             'size' => 10,
-            'max' => 20,
             'eval' => 'date',
             'checkbox' => '0',
             'default' => 0
@@ -43,6 +43,7 @@ $feUsersColumns = [
             'fe_users.crdate',
         'config' => [
             'type' => 'input',
+            'renderType' => 'inputDateTime',
             'size' => 30,
             'eval' => 'datetime',
             'readOnly' => true,
@@ -55,6 +56,7 @@ $feUsersColumns = [
             'fe_users.tstamp',
         'config' => [
             'type' => 'input',
+            'renderType' => 'inputDateTime',
             'size' => 30,
             'eval' => 'datetime',
             'readOnly' => true,
@@ -95,12 +97,51 @@ $feUsersColumns = [
         'exclude' => true,
         'config' => [
             'type' => 'input',
+            'renderType' => 'inputDateTime',
             'size' => 30,
             'eval' => 'datetime',
             'readOnly' => true,
         ]
-    ]
+    ],
 ];
+
+$staticInfoTablesIsLoaded = \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::isLoaded('static_info_tables');
+if ($staticInfoTablesIsLoaded) {
+    $feUsersColumns['state'] = [
+        'label' => 'LLL:EXT:femanager/Resources/Private/Language/locallang_db.xlf:' .
+            'tx_femanager_domain_model_user.state',
+        'exclude' => true,
+        'config' => [
+            'type' => 'select',
+            'renderType' => 'selectSingle',
+            'items' => [
+                ['LLL:EXT:femanager/Resources/Private/Language/locallang_db.xlf:pleaseChoose', '']
+            ],
+            'itemsProcFunc' => 'In2code\\Femanager\\UserFunc\\StaticInfoTables->getStatesOptions',
+            'maxitems' => 1,
+        ]
+    ];
+}
+if (version_compare(TYPO3_version, '9.0.0', '<')) {
+    $extConf = unserialize($GLOBALS['TYPO3_CONF_VARS']['EXT']['extConf']['femanager']);
+    $overrideFeUserCountryFieldWithSelect = $extConf['overrideFeUserCountryFieldWithSelect'];
+} else {
+    $extConf = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(
+        \TYPO3\CMS\Core\Configuration\ExtensionConfiguration::class
+    );
+    $overrideFeUserCountryFieldWithSelect = $extConf->get('femanager', 'overrideFeUserCountryFieldWithSelect');
+}
+if ($overrideFeUserCountryFieldWithSelect) {
+    $GLOBALS['TCA']['fe_users']['columns']['country']['config'] = [
+        'type' => 'select',
+        'renderType' => 'selectSingle',
+        'itemsProcFunc' => 'In2code\\Femanager\\UserFunc\\StaticInfoTables->getCountryOptions',
+        'items' => [
+            ['LLL:EXT:femanager/Resources/Private/Language/locallang_db.xlf:pleaseChoose', '']
+        ],
+        'maxitems' => 1,
+    ];
+}
 $fields = 'crdate, tstamp, tx_femanager_confirmedbyuser, tx_femanager_confirmedbyadmin, tx_femanager_terms, ' .
     'tx_femanager_terms_date_of_acceptance';
 
@@ -142,6 +183,16 @@ $fields .= ', tx_femanager_changerequest';
     '',
     'after:name'
 );
+if ($staticInfoTablesIsLoaded) {
+    $GLOBALS['TCA']['fe_users']['columns']['country']['onChange'] = 'reload';
+    $fields .= ',state';
+    \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addToAllTCAtypes(
+        'fe_users',
+        'state',
+        '',
+        'after:country'
+    );
+}
 \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addTCAcolumns('fe_users', $feUsersColumns);
 \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addToAllTCAtypes(
     'fe_users',
