@@ -103,7 +103,7 @@ return [
                 'behaviour' => [
                     'allowLanguageSynchronization' => true,
                 ]
-            ],
+            ]
         ],
         'endtime' => [
             'exclude' => 1,
